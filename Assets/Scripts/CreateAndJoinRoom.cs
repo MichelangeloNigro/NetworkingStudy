@@ -1,27 +1,62 @@
-using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
+using Photon.Realtime;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.UIElements;
+using Button = UnityEngine.UI.Button;
 
-public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
-{
+public class CreateAndJoinRoom : MonoBehaviourPunCallbacks {
 	[SerializeField] TMP_InputField _createInput = null;
 	[SerializeField] TMP_InputField _joinInput = null;
 	[SerializeField] string _loadedLevelName = "Gameplay";
+	private Dictionary<string, RoomInfo> cachedRoomList = new Dictionary<string, RoomInfo>();
+	public GameObject buttonPrefab;
+	public GameObject content;
 
-	public void CreateRoom()
-	{
+	public void CreateRoom() {
 		PhotonNetwork.CreateRoom(_createInput.text); //And Join
 	}
 
-	public void JoinRoom()
-	{
+	public void JoinRoom() {
 		PhotonNetwork.JoinRoom(_joinInput.text);
 	}
 
-	public override void OnJoinedRoom()
-	{
+	public override void OnJoinedRoom() {
 		PhotonNetwork.LoadLevel(_loadedLevelName);
+	}
+
+	public override void OnRoomListUpdate(List<RoomInfo> roomList) {
+		base.OnRoomListUpdate(roomList);
+		foreach (var room in roomList) {
+			if (!cachedRoomList.ContainsValue(room)) {
+				cachedRoomList.Add(room.Name, room);
+			}
+			if (room.RemovedFromList) {
+				cachedRoomList.Remove(room.Name);
+			}
+		}
+		content.transform.Clear();
+		foreach (var VARIABLE in cachedRoomList.Values) {
+			var but = Instantiate(buttonPrefab, Vector3.zero, Quaternion.identity, content.transform);
+			but.GetComponent<RectTransform>().position = Vector3.zero;
+			but.GetComponentInChildren<TMPro.TMP_Text>().text = $"Name: {VARIABLE.Name} Players: {VARIABLE.PlayerCount} / {VARIABLE.MaxPlayers}";
+			but.GetComponent<Button>().onClick.AddListener(delegate { JoinSpecificRoom(VARIABLE.Name); });
+		}
+	}
+
+	public void JoinSpecificRoom(string s) {
+		PhotonNetwork.JoinRoom(s);
+	}
+	
+}
+public static class TransformEx {
+	public static Transform Clear(this Transform transform)
+	{
+		foreach (Transform child in transform) {
+			GameObject.Destroy(child.gameObject);
+		}
+		return transform;
 	}
 }
