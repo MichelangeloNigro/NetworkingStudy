@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Lobby 1.unity
     guid: 3bfeb5eead1b69249b5c2d803ad60ed8
+  - enabled: 1
+    path: Assets/Scenes/FIghting.unity
+    guid: 30fd839b50d0f1746b3fcfdde3ff23a0
   m_configObjects: {}

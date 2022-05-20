@@ -47,7 +47,6 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks {
 	}
 
 	public override void OnRoomListUpdate(List<RoomInfo> roomList) {
-		Debug.Log("ciao");
 		content.transform.Clear();
 		base.OnRoomListUpdate(roomList);
 		dictionaryroom.cachedRoomList.Clear();

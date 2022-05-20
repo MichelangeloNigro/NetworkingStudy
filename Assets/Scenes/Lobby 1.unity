@@ -2494,7 +2494,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _createInput: {fileID: 973915216}
   _joinInput: {fileID: 2019625362}
-  _loadedLevelName: Gameplay
+  _loadedLevelName: Fighting
   dictionaryroom: {fileID: 1397797125}
   buttonPrefab: {fileID: 5199587014232127200, guid: 10d1e655045897540a4375e952885628, type: 3}
   content: {fileID: 761560998}
