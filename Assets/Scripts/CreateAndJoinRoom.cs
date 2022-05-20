@@ -18,7 +18,7 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks {
 	private RoomOptions options = new RoomOptions();
 
 	private void Start() {
-		Debug.Log(PhotonNetwork.CountOfRooms);
+		PhotonNetwork.JoinLobby();
 		options.MaxPlayers = 2;
 	}
 
@@ -47,6 +47,7 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks {
 	}
 
 	public override void OnRoomListUpdate(List<RoomInfo> roomList) {
+		Debug.Log("ciao");
 		content.transform.Clear();
 		base.OnRoomListUpdate(roomList);
 		dictionaryroom.cachedRoomList.Clear();
