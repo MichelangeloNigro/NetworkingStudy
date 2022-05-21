@@ -41,6 +41,16 @@ public class FightInput : MonoBehaviourPunCallbacks {
 	}
 
 	private void Update() {
+		if (enemy!=null) {
+			if (transform.position.x < enemy.transform.position.x && transform.localRotation.eulerAngles.y != 180) {
+				Debug.Log("rotate");
+				transform.localRotation = Quaternion.Euler(transform.localRotation.x, 180, transform.localRotation.z);
+			}
+			if (transform.position.x > enemy.transform.position.x && transform.localRotation.eulerAngles.y != 0) {
+				Debug.Log("rotate");
+				transform.localRotation = Quaternion.Euler(transform.localRotation.x, 0, transform.localRotation.z);
+			}
+		}
 		if (photonView.IsMine) {
 			if (Input.GetKeyDown(punchHI)) {
 				animator.SetTrigger("AttackHi");
@@ -59,19 +69,11 @@ public class FightInput : MonoBehaviourPunCallbacks {
 				GetComponentInChildren<Rigidbody2D>().AddForce(Vector2.up*Time.deltaTime*jumpForce,ForceMode2D.Impulse);
 			}
 			Vector3 horizontal = new Vector3(Input.GetAxis("Horizontal"), 0f, 0f);
-			model.transform.position += horizontal * Time.deltaTime * vel;
+			transform.position += horizontal * Time.deltaTime * vel;
 			animator.SetFloat("Blend", Mathf.Abs(Input.GetAxis("Horizontal")));
+			
 		}
-		if (enemy!=null) {
-			if (model.transform.position.x < enemy.transform.position.x && transform.localRotation.eulerAngles.y != 180) {
-				Debug.Log("rotate");
-				transform.localRotation = Quaternion.Euler(transform.localRotation.x, 180, transform.localRotation.z);
-			}
-			if (model.transform.position.x > enemy.transform.position.x && transform.localRotation.eulerAngles.y != 0) {
-				Debug.Log("rotate");
-				transform.localRotation = Quaternion.Euler(transform.localRotation.x, 0, transform.localRotation.z);
-			}
-		}
+		
 		
 	}
 

@@ -35,8 +35,8 @@ public class AssignPosition : MonoBehaviourPunCallbacks {
 		assignPlayer1();
 		assignPlayer2();
 		player2Obj.GetComponentInChildren<SpriteRenderer>().color = Color.blue;
-		player1Obj.GetComponent<FightInput>().enemy = player2Obj;
-		player2Obj.GetComponent<FightInput>().enemy = player1Obj;
+		player1Obj.GetComponent<FightInput>().enemy = player2Obj.GetComponent<FightInput>().model;
+		player2Obj.GetComponent<FightInput>().enemy = player1Obj.GetComponent<FightInput>().model;
 	}
 	[PunRPC]
 	public void setPlayersForAll() {
